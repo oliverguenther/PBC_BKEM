@@ -104,7 +104,7 @@ void setup(bes_system_t *sys, bes_global_params_t gps) {
     }
 }
 
-void encrypt(keypair_t *key, int *S, int num_recip, bes_system_t sys, bes_global_params_t gps) {
+void get_encryption_key(keypair_t *key, int *S, int num_recip, bes_system_t sys, bes_global_params_t gps) {
 
 	keypair_t kp;
 	kp = pbc_malloc(sizeof(struct keypair_s));
@@ -159,7 +159,7 @@ void encrypt(keypair_t *key, int *S, int num_recip, bes_system_t sys, bes_global
 
 }
 
-void decrypt(element_t K, bes_global_params_t gps, int *S, int num_recip, int index, 
+void get_decryption_key(element_t K, bes_global_params_t gps, int *S, int num_recip, int index, 
              element_t d_i, element_t *HDR, pubkey_t PK) { 
 
 	// a is equal to instance

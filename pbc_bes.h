@@ -91,7 +91,7 @@ void setup(bes_system_t *sys, bes_global_params_t gps);
  * @param[in] num_recip Number of elements in S
  * @param[in] sys Broadcast encryption parameters
  */
-void encrypt(keypair_t *key, int *S, int num_recip, bes_system_t sys, bes_global_params_t gps);
+void get_encryption_key(keypair_t *key, int *S, int num_recip, bes_system_t sys, bes_global_params_t gps);
 
 
 /**
@@ -105,7 +105,7 @@ void encrypt(keypair_t *key, int *S, int num_recip, bes_system_t sys, bes_global
  * @param[in] HDR header
  * @param[in] PK public key
  */
-void decrypt(element_t K, bes_global_params_t gbs, int *S, int num_recip, int i, 
+void get_decryption_key(element_t K, bes_global_params_t gbs, int *S, int num_recip, int i, 
 		element_t d_i, element_t *HDR, pubkey_t PK);
 
 
