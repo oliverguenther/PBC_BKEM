@@ -70,6 +70,25 @@ typedef struct keypair_s {
 
 
 /**
+ * @brief Free a keypair_t
+ */
+void free_pubkey(pubkey_t pk, bes_global_params_t gbs);
+
+
+/**
+ * @brief Free a bes_system_t
+ */
+void free_bes_system(bes_system_t sys, bes_global_params_t gbs);
+
+
+/**
+ * @brief Free a global_broadcast_params_t
+ */
+void free_global_params(bes_global_params_t gbs);
+
+
+
+/**
  * Setup global broadcast system parameters
  * @param[out] gps bes_global_params_t pointer
  * @param[in] params Pairing Type paramters as string

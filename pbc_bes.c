@@ -210,3 +210,40 @@ void get_decryption_key(element_t K, bes_global_params_t gps, int *S, int num_re
     
 }
 
+
+void free_global_params(bes_global_params_t gbs) {
+    if (!gbs)
+        return;
+    
+    pairing_clear(gbs->pairing);
+    free(gbs);
+}
+
+void free_pubkey(pubkey_t pk, bes_global_params_t gbs) {
+    if (!pk)
+        return;
+    
+    element_clear(pk->g);
+    
+    int i;
+    for (i = 0; i < 2 * gbs->B; ++i) {
+        element_clear(pk->g_i[i]);
+    }
+    
+    for (i = 0; i < gbs->A; ++i) {
+        element_clear(pk->v_i[i]);
+    }
+    
+}
+
+void free_bes_system(bes_system_t sys, bes_global_params_t gbs) {
+    if (!sys)
+        return;
+    
+    free_pubkey(sys->PK, gbs);
+    
+    int i;
+    for (i = 0; i < gbs->N; ++i) {
+        element_clear(sys->d_i[i]);
+    }
+}
