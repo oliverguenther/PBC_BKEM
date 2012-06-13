@@ -28,8 +28,6 @@
 #include <string.h>
 #include <pbc/pbc.h>
 
-#define PBCBES_DEBUG 0
-
 /**
   @typedef Global broadcast system parameters
  */

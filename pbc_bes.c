@@ -34,11 +34,11 @@ void setup_global_system(bes_global_params_t *gps, const char *pstr, int N) {
 	bes_global_params_t params;
 	params = pbc_malloc(sizeof(struct bes_global_params_s));
     
-	params->N = N;
-    
 	// Compute A, B system params
 	params->B = (int) sqrt(N);
-	params->A = (int) N/params->B;
+	params->A = (N + params->B - 1) / params->B;
+
+	params->N = params->A * params->B;
     
 	// Init pairing
 	pairing_init_set_str(params->pairing, pstr);
@@ -90,7 +90,7 @@ void setup(bes_system_t *sys, bes_global_params_t gps) {
 	// Compute private keys d_i
     gbs->d_i = pbc_malloc(gps->N * sizeof(struct element_s));
 	for (i = 0; i < gps->N; i++) {
-		int a = (int) ceil(i/gps->B);
+		int a = (int) i / gps->B;
 		int b = (int) i % gps->B;
         
 		element_init_G1(gbs->d_i[i], gps->pairing);
@@ -143,10 +143,10 @@ void get_encryption_key(keypair_t *key, int *S, int num_recip, bes_system_t sys,
         
 		// Get relative position of member S[i] within its subset
 		// Determine position in HDR (+1 offset from first element)
-		line = ((int) (S[i] / gps->A)) + 1;
+		line = (int) (S[i] / gps->B);
 		// Determine position
-		pos = (S[i] % gps->B) + 1; 	
-		element_mul(kp->HDR[line], kp->HDR[line], sys->PK->g_i[gps->B - pos]);
+		pos = (S[i] % gps->B); 	
+		element_mul(kp->HDR[line + 1], kp->HDR[line + 1], sys->PK->g_i[gps->B - 1 - pos]);
 	}
     
 	// Pow each subinstance with t
@@ -161,17 +161,17 @@ void get_encryption_key(keypair_t *key, int *S, int num_recip, bes_system_t sys,
 
 void get_decryption_key(element_t K, bes_global_params_t gps, int *S, int num_recip, int index, 
                         element_t d_i, element_t *HDR, pubkey_t PK) { 
-    
+
 	// a is equal to instance
-	int a = ((int) (index / gps->A)) + 1;
+	int a = (int) (index / gps->B);
     
 	// b is relative position in subset
 	int b = index % gps->B;
     
     element_t nom, den, temp;
 	element_init_GT(nom, gps->pairing);
-    // Set nominator to e(g_b, HDR_a)
-	pairing_apply(nom, PK->g_i[b], HDR[a], gps->pairing);
+    // Set nominator to e(g_b, HDR_a) (+1 offset)
+	pairing_apply(nom, PK->g_i[b], HDR[a + 1], gps->pairing);
     
     element_init_same_as(temp, d_i);
 	element_set(temp, d_i);
@@ -184,17 +184,13 @@ void get_decryption_key(element_t K, bes_global_params_t gps, int *S, int num_re
 		}
         
 		// Get relative position of member S[i] within its subset
-		// Determine position in HDR (+1 offset from first element)
-		line = ((int) (S[i] / gps->A)) + 1;
+		line = (int) (S[i] / gps->B);
 		// Determine position
 		pos = (int) S[i] % gps->B;	
         
-        if (PBCBES_DEBUG)
-            printf("index=%d, S[%d]=%d, subset nr=%d, relative pos=%d (a=%d, b=%d)\n",index, i, S[i], line, pos, a, b);
-        
 		if (line == a && pos != b) {
-			pkpos = (gps->B + 1) - pos+b;
-			element_mul(temp, temp, PK->g_i[pkpos-1]); 
+			pkpos = (gps->B) - pos+b; 
+			element_mul(temp, temp, PK->g_i[pkpos]); 
 		}
 	}
     

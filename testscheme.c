@@ -1,7 +1,7 @@
 #include "pbc_bes.h"
 
 
-int main(void) {
+int main(int argc, const char *argv[]) {
 
 	FILE *param = fopen("a.param", "r");
 	char buf[4096];
@@ -10,7 +10,7 @@ int main(void) {
     printf("\nSystem setup Key\n\n");
 
 	bes_global_params_t gps;
-	setup_global_system(&gps, (const char*) buf, 128);
+	setup_global_system(&gps, (const char*) buf, (argc > 1) ? atoi(argv[1]) : 256);
 
 	printf("Global System parameters: N = %d, A = %d, B = %d\n\n", gps->N, gps->A, gps->B);
 
@@ -21,15 +21,15 @@ int main(void) {
     
     
     unsigned int c,k,j;
-    for (c = 2; c <= gps->N; c+=2) {
+    for (c = 2; c <= gps->N; c*=2) {
         //        if (c == 3) return;
         int S[c];
-        printf("Testing with S = [ ");
+        printf("\nTesting with S = [ ");
         for (k = 0; k < c; ++k) {
             S[k] = k;
             printf("%d ", k);
         }
-        printf("]\n");
+        printf("]\n\n");
         keypair_t keypair;
         get_encryption_key(&keypair, S, c, sys, gps);
         element_t K;
