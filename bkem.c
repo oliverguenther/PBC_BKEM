@@ -1,25 +1,25 @@
 /*
  * General construction of the 
- * Boneh-Gentry-Waters broadcast encryption scheme 
- * 
- * PBC_bes is free software: you can redistribute it and/or modify
+ * Boneh-Gentry-Waters broadcast key encapsulation scheme 
+ *
+ * BKEM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  * 
- * PBC_bes is distributed in the hope that it will be useful,
+ * BKEM is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with PBC_bes.  If not, see <http://www.gnu.org/licenses/>.
+ * along with BKEM.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * Oliver Guenther
  * mail@oliverguenther.de
  *
  * 
- * PBC_bes.c
+ * BKEM.c
  */
 
 
@@ -27,12 +27,12 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "pbc_bes.h"
+#include "bkem.h"
 
-void setup_global_system(bes_global_params_t *gps, const char *pstr, int N) {
+void setup_global_system(bkem_global_params_t *gps, const char *pstr, int N) {
 	// init global parameters
-	bes_global_params_t params;
-	params = pbc_malloc(sizeof(struct bes_global_params_s));
+	bkem_global_params_t params;
+	params = pbc_malloc(sizeof(struct bkem_global_params_s));
     
 	// Compute A, B system params
 	params->B = (int) sqrt(N);
@@ -47,10 +47,10 @@ void setup_global_system(bes_global_params_t *gps, const char *pstr, int N) {
 }
 
 
-void setup(bes_system_t *sys, bes_global_params_t gps) {
-	// init broadcast system
-	bes_system_t gbs;
-	gbs = pbc_malloc(sizeof(struct bes_system_s));
+void setup(bkem_system_t *sys, bkem_global_params_t gps) {
+	// init key encapsulation system
+	bkem_system_t gbs;
+	gbs = pbc_malloc(sizeof(struct bkem_system_s));
     gbs->PK = pbc_malloc(sizeof(struct pubkey_s));
     
 	// Choose random generator
@@ -104,7 +104,7 @@ void setup(bes_system_t *sys, bes_global_params_t gps) {
     }
 }
 
-void get_encryption_key(keypair_t *key, int *S, int num_recip, bes_system_t sys, bes_global_params_t gps) {
+void get_encryption_key(keypair_t *key, int *S, int num_recip, bkem_system_t sys, bkem_global_params_t gps) {
     
 	keypair_t kp;
 	kp = pbc_malloc(sizeof(struct keypair_s));
@@ -159,7 +159,7 @@ void get_encryption_key(keypair_t *key, int *S, int num_recip, bes_system_t sys,
     
 }
 
-void get_decryption_key(element_t K, bes_global_params_t gps, int *S, int num_recip, int index, 
+void get_decryption_key(element_t K, bkem_global_params_t gps, int *S, int num_recip, int index, 
                         element_t d_i, element_t *HDR, pubkey_t PK) { 
 
 	// a is equal to instance
@@ -207,7 +207,7 @@ void get_decryption_key(element_t K, bes_global_params_t gps, int *S, int num_re
 }
 
 
-void free_global_params(bes_global_params_t gbs) {
+void free_global_params(bkem_global_params_t gbs) {
     if (!gbs)
         return;
     
@@ -215,7 +215,7 @@ void free_global_params(bes_global_params_t gbs) {
     free(gbs);
 }
 
-void free_pubkey(pubkey_t pk, bes_global_params_t gbs) {
+void free_pubkey(pubkey_t pk, bkem_global_params_t gbs) {
     if (!pk)
         return;
     
@@ -232,7 +232,7 @@ void free_pubkey(pubkey_t pk, bes_global_params_t gbs) {
     
 }
 
-void free_bes_system(bes_system_t sys, bes_global_params_t gbs) {
+void free_bkem_system(bkem_system_t sys, bkem_global_params_t gbs) {
     if (!sys)
         return;
     

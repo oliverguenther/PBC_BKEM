@@ -1,34 +1,30 @@
-#Boneh-Gentry-Waters broadcast encryption scheme (PBC_bes)
+#Boneh-Gentry-Waters broadcast key encapsulation scheme (BPC_BKEM)
 
-PBC_bes implements the [Boneh-Gentry-Waters broadcast encryption system](http://crypto.stanford.edu/~dabo/abstracts/broadcast.html) (Based on the general construction of that scheme).
+This Broadcast Key Encapsulation Mechanism (BKEM) implements the [Boneh-Gentry-Waters Broadcast Encryption scheme](http://crypto.stanford.edu/~dabo/abstracts/broadcast.html) (Sec. 3.2, General Construction).
 
-PBC_bes is based on the [Pairing-Based Cryptography Library](http://crypto.stanford.edu/pbc/) by Ben Lynn.
+PBC_BKEM is implemented using the [Pairing-Based Cryptography Library](http://crypto.stanford.edu/pbc/) by Ben Lynn.
 
 The scheme depends on a symmetric pairing, thus a [Type-A pairing](http://crypto.stanford.edu/pbc/manual/ch08s03.html) is required.
 
 ## Installation
 
-PBC_bes depends on the PBC library, which itself depends on GMP. Please see their respective manuals for build instructions.
+PBC_BKEM depends on the PBC library, which itself depends on GMP. Please see their respective manuals for build instructions.
 
-To build the test program, run:
+To build the test program, simply run:
 
-	gcc pbc_bes.c testscheme.c -lgmp -lpbc
-
-## TODO
-- Key-Deriviation from Enc/Decryption key K
-- I/O methods for structs
+	gcc bkem.c testscheme.c -lgmp -lpbc
 
 ## Contact
 Oliver Günther, mail@oliverguenther.de
 
 ##LICENSE
 
-PBC_bes is free software: you can redistribute it and/or modify
+PBC_BKEM is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-PBC_bes is distributed in the hope that it will be useful,
+PBC_BKEM is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.

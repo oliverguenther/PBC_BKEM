@@ -1,4 +1,4 @@
-#include "pbc_bes.h"
+#include "bkem.h"
 
 
 int main(int argc, const char *argv[]) {
@@ -9,12 +9,12 @@ int main(int argc, const char *argv[]) {
     
     printf("\nSystem setup Key\n\n");
 
-	bes_global_params_t gps;
+	bkem_global_params_t gps;
 	setup_global_system(&gps, (const char*) buf, (argc > 1) ? atoi(argv[1]) : 256);
 
 	printf("Global System parameters: N = %d, A = %d, B = %d\n\n", gps->N, gps->A, gps->B);
 
-	bes_system_t sys;
+	bkem_system_t sys;
 	setup(&sys, gps);
     
     printf("\nTesting system\n\n");
