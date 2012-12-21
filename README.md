@@ -1,4 +1,4 @@
-#Boneh-Gentry-Waters broadcast key encapsulation scheme (BPC_BKEM)
+#Boneh-Gentry-Waters broadcast key encapsulation scheme (PPC_BKEM)
 
 This Broadcast Key Encapsulation Mechanism (BKEM) implements the [Boneh-Gentry-Waters Broadcast Encryption scheme](http://crypto.stanford.edu/~dabo/abstracts/broadcast.html) (Sec. 3.2, General Construction).
 
